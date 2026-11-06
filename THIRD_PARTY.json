@@ -1,0 +1,13 @@
+{
+  "package": "@mlightcad/libredwg-web",
+  "version": "0.8.4",
+  "license": "GPL-3.0",
+  "source_commit": "1e8972121130198dee363478b47f89b944842276",
+  "source_archive": "https://github.com/mlightcad/libredwg-web/archive/1e8972121130198dee363478b47f89b944842276.tar.gz",
+  "files": {
+    "LICENSE": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+    "dist/libredwg-web.js": "2fa3c2a05e0e58db836fbede863273c6a76280e23e87ced32d4728faf61873f7",
+    "wasm/libredwg-web.js": "e263ab8c8a00de0cc38fd259db5b0cdc4d7ef0f4b123dbe9a41de2da6f3311a4",
+    "wasm/libredwg-web.wasm": "faf887bddb97fa8075ce718aaae578ea2af33bb091c9cf123df75c1d5b212abf"
+  }
+}

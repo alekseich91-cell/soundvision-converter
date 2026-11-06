@@ -1,0 +1,1 @@
+{"name":"soundvision-converter","version":"1.0.0","private":true,"type":"module","scripts":{"test":"bash scripts/gate.sh"},"license":"GPL-3.0-or-later"}

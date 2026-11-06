@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Конвертация 3D-геометрии DWG в Soundvision TXT прямо в браузере. Объединение плоских граней и предпросмотр.">
+  <meta name="theme-color" content="#11191e"><title>Roomform — DWG → Soundvision</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header><a class="brand" href="./" aria-label="Roomform, главная"><span class="brand-icon">⌑</span>roomform<span class="brand-tag">SOUND TOOLS</span></a><span class="local-badge"><i></i>Файлы остаются на устройстве</span></header>
+  <main>
+    <section class="intro"><div><span class="eyebrow">ПОДГОТОВКА АКУСТИЧЕСКОЙ МОДЕЛИ</span><h1>Из чертежа —<br><span>в Soundvision.</span></h1><p>Перенеси геометрию помещения из DWG.<br>Без установки CAD и лишних диагоналей.</p></div><div class="format-route"><span>DWG</span><svg viewBox="0 0 120 20" aria-hidden="true"><path d="M0 10H116M108 3l8 7-8 7"/></svg><span>SV<span class="txt">.txt</span></span></div></section>
+    <section class="workspace" aria-label="Конвертер">
+      <aside class="controls">
+        <div class="step-heading"><span>01</span><h2>Исходный чертёж</h2></div>
+        <label id="dropzone" class="dropzone" tabindex="0"><input id="file" type="file" accept=".dwg" hidden><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 3h12l7 7v19H7zM19 3v8h7M12 20h9M16.5 15.5v9"/></svg><strong id="file-name">Выбрать DWG</strong><span id="file-detail">или перетащи сюда · до 50 МБ</span></label>
+        <div class="step-heading second"><span>02</span><h2>Параметры геометрии</h2></div>
+        <label class="field" for="units">Единицы исходного DWG<select id="units"><option value="0.001">Миллиметры → метры</option><option value="1">Метры</option><option value="0.01">Сантиметры → метры</option><option value="0.0254">Дюймы → метры</option><option value="0.3048">Футы → метры</option></select></label>
+        <p class="hint" id="unit-hint">Если единицы не записаны в DWG, выбери их по известному размеру помещения.</p>
+        <label class="toggle-row"><input id="merge" type="checkbox" checked><span><strong>Объединять плоские грани</strong><small>Цельные поверхности вместо сетки треугольников</small></span></label>
+        <div id="sources-wrap" hidden><h3>Объекты чертежа</h3><p class="hint">Выключи служебные фигуры и ненужные блоки.</p><div id="sources"></div></div>
+        <div class="export-zone"><button id="download" class="primary" disabled>Скачать для Soundvision <span>↗</span></button><span class="export-caption">TXT · координаты в метрах</span></div>
+      </aside>
+      <div class="viewer-panel"><div class="viewer-top"><span><i class="status-dot"></i>ГЕОМЕТРИЯ ПОМЕЩЕНИЯ</span><div class="view-buttons"><button id="view-3d" class="active" aria-pressed="true">3D</button><button id="view-top" aria-pressed="false">План</button><button id="reset" title="Вписать модель в окно" aria-label="Вписать модель">⤢</button></div></div>
+        <div class="viewport" id="viewport"><canvas id="canvas" aria-label="Интерактивный предпросмотр геометрии помещения"></canvas><div id="empty" class="empty"><div class="room-illustration"><svg viewBox="0 0 320 230" aria-hidden="true"><g fill="none" stroke-width="1.2"><path stroke="#4c5b63" d="m28 142 110 63 161-93-111-64zM28 142V65L138 4l161 92v16M138 205v-77L28 65m110 63 161-32M138 4v77"/><path fill="#aada6a" fill-opacity=".06" stroke="#b0df76" d="m28 142 110 63 161-93-111-64z"/><path stroke="#5f7078" stroke-dasharray="4 6" d="m138 81 50-33m-50 80V81"/><circle cx="138" cy="205" r="3" fill="#c4f58d" stroke="none"/></g></svg></div><strong>Здесь появится твоя модель</strong><p>Выбери DWG с объёмными поверхностями</p></div><div id="busy" class="busy" hidden><span class="spinner"></span><strong id="busy-label">Читаю DWG…</strong><small>Первый запуск загружает модуль конвертации</small><button id="cancel">Отменить</button></div><div class="axis-legend" id="axis-legend" hidden><span>X</span><span>Y</span><span>Z</span></div><span class="viewer-help" id="viewer-help" hidden>Вращение — мышью · масштаб — колёсиком</span></div>
+        <div class="viewer-bottom"><span id="status" role="status" aria-live="polite">ГОТОВ К РАБОТЕ</span><span id="surface-count">3D POLYFACE / 3DFACE</span></div>
+      </div>
+    </section>
+    <section id="result-info" class="result-info" hidden><div><span>ГАБАРИТЫ</span><strong id="dimensions">—</strong></div><div><span>ПОВЕРХНОСТИ</span><strong id="counts">—</strong></div><p id="warnings"></p></section>
+    <p id="error" class="error" role="alert" hidden></p>
+    <section class="howto"><div class="howto-heading"><span class="eyebrow">ПОСЛЕ КОНВЕРТАЦИИ</span><h2>Три шага в Soundvision</h2></div><ol><li><span>1</span><p>Открой панель<br><strong>3D room data</strong></p></li><li><span>2</span><p>Нажми <strong>Import 3D room data</strong><br>и выбери скачанный TXT</p></li><li><span>3</span><p>Выдели пол и задай<br><strong>Audience listening level</strong></p></li></ol></section>
+  </main>
+  <footer><span>Roomform · DWG → Soundvision</span><p>Обрабатываются Polyface и 3DFACE. Проёмы сохраняются. Стены и потолок не добавляются автоматически.</p><a href="./about.html">Об инструменте и лицензиях ↗</a></footer>
+  <script type="module" src="./app.js"></script>
+</body></html>
